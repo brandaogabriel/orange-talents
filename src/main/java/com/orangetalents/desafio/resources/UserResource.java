@@ -19,14 +19,14 @@ public class UserResource {
 	@PostMapping
 	public ResponseEntity<UserDTO> insert(@RequestBody UserDTO userDTO) {
 		userDTO = service.insert(userDTO);
-		return ResponseEntity.ok().body(userDTO);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{email}")
+				.buildAndExpand(userDTO.getEmail()).toUri();
+		return ResponseEntity.created(uri).body(userDTO);
 	}
 
 	@GetMapping(value = "/{email}")
 	public ResponseEntity<UserDTO> insert(@PathVariable String email) {
 		UserDTO userDTO = service.findByEmail(email);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{email}")
-				.buildAndExpand(userDTO.getEmail()).toUri();
-		return ResponseEntity.created(uri).body(userDTO);
+		return ResponseEntity.ok().body(userDTO);
 	}
 }
